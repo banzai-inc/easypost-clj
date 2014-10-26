@@ -19,13 +19,15 @@ Easypost-clj is an early-stage library for interfacing with Easypost's elegant s
 
 ### `easypost-clj.core`
 
-Easypost-clj's functionality roughly corresponds to the tutorials found in (Easypost's Getting Started Guide)[https://www.easypost.com/getting-started].
+Easypost-clj's functionality roughly corresponds to the tutorials found in [Easypost's Getting Started Guide](https://www.easypost.com/getting-started).
 
 Require the core library, and make sure you have an Easypost API token handy:
 
 ```clojure
 (require '[easypost-clj.core :as ep])
+
 (def token ...)
+
 => "abcd1234"
 ```
 
@@ -79,7 +81,7 @@ Two API methods for shipments: `create!` and `buy!`. `buy!` takes three argument
 
 The `easypost-clj.webhooks` namespace provides a few convenience methods for handling Easypost Webhook requests.
 
-```
+```clojure
 ;; Make sure your request has been converted from string based keys to keywords.
 ;; If you're using Ring, you should be able to transparently pass the full
 ;; request into the `event` constructor function.
