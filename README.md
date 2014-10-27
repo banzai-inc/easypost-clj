@@ -4,11 +4,7 @@ A simple Clojure library for interacting with [Easypost's](https://www.easypost.
 
 ## Install
 
-Add to `project.clj` in your Leiningen project:
-
-```clj
-[easypost-clj "0.1.0"]
-```
+Add `easypost-clj` to `project.clj` in your Leiningen project. [Click here to get the newest version.](https://clojars.org/easypost-clj)
 
 ## Usage
 
