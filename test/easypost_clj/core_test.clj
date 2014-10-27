@@ -8,7 +8,7 @@
 
 (def token (e/env :easypost-api-key))
 
-(def from (core/address {:company "Banzai, Inc."
+(def from (core/address {:company "Banzai"
                          :street1 "2545 N. Canyon Rd."
                          :street2 "Ste. 210"
                          :city "Provo"
@@ -32,7 +32,7 @@
                               :from_address from
                               :parcel parcel}))
 
-(def batch (core/batch {:shipment shipment}))
+(def batch (core/batch {:shipments [shipment]}))
 
 (deftest address-test
   (let [address (-> from
@@ -67,4 +67,4 @@
       (let [batch (-> batch
                       (core/create! token)
                       (core/buy! token))]
-        (is (= "created" (:state #spy/p batch)))))))
+        (is (= "created" (:state batch)))))))
