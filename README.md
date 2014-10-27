@@ -72,7 +72,7 @@ Two API methods for shipments: `create!` and `buy!`. `buy!` takes three argument
 #### Batches
 
 ```clojure
-(def batch (core/batch {:shipment shipment}))
+(def batch (core/batch {:shipments [shipment]}))
 (-> (core/create! batch token)
     (core/buy! token))
 ```
