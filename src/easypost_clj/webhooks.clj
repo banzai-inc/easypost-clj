@@ -1,4 +1,5 @@
-(ns easypost-clj.webhooks)
+(ns easypost-clj.webhooks
+  (:require [easypost-clj.core :as ep]))
 
 (defrecord Event [])
 (defrecord Tracker [])
@@ -11,6 +12,10 @@
   (-> (map->Tracker v)
       (update-in [:tracking_details] (partial map tracking-detail))))
 
+(defmulti transform-result :object)
+(defmethod transform-result "Tracker" [v] (tracker v))
+(defmethod transform-result "Batch" [v] (ep/batch v))
+
 (defn event [& [v]]
   (-> (map->Event v)
-      (update-in [:result] tracker)))
+      (update-in [:result] transform-result)))

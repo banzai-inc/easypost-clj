@@ -56,8 +56,8 @@ Two API methods for shipments: `create!` and `buy!`. `buy!` takes three argument
 
 ```clojure
 (def shipment (-> (core/shipment {:to_address to
-                              :from_address from
-                              :parcel parcel})
+                                  :from_address from
+                                  :parcel parcel})
                   (core/create! token))
 
 (def rates (:rates shipment))
