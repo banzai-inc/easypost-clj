@@ -98,7 +98,7 @@
    (-> (make-request* :post (str (endpoint batch) "/" (:id batch) "/buy")
                       (-> {} (merge-auth token))))))
 
-(defn label!
+(defn labels!
   "Create labels for a batch."
   [batch token & [file-format]]
   (-> (make-request* :post (str (endpoint batch) "/" (:id batch) "/label")

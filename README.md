@@ -79,7 +79,7 @@ Three API methods for shipments: `show`, `create!`, and `buy!`. `buy!` takes thr
 
 ;; Wait, wait, wait for webhook...
 
-(core/label batch token "zpl") ; The file format is optional. Omitting the argument defaults to "pdf".
+(core/labels! batch token "zpl") ; The file format is optional. Omitting the argument defaults to "pdf".
 ```
 
 ### `easypost-clj.webhooks`
