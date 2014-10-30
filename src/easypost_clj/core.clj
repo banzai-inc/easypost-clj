@@ -98,6 +98,13 @@
    (-> (make-request* :post (str (endpoint batch) "/" (:id batch) "/buy")
                       (-> {} (merge-auth token))))))
 
+(defn label!
+  "Create labels for a batch."
+  [batch token & [file-format]]
+  (-> (make-request* :post (str (endpoint batch) "/" (:id batch) "/label")
+                     (-> {:form-params {:file_format (or file-format "pdf")}}
+                         (merge-auth token)))))
+
 (extend-protocol Easypostable
   Address
   (root [_] :address)

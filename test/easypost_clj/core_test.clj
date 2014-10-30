@@ -62,11 +62,10 @@
 (deftest batch-test
   (let [batch (-> batch
                   (core/create! token))]
+
     (testing "create"
       (is (contains? batch :created_at)))
     
     (testing "buy"
-      (let [batch (-> batch
-                      (core/create! token)
-                      (core/buy! token))]
+      (let [batch (core/buy! batch token)]
         (is (= "created" (:state batch)))))))
