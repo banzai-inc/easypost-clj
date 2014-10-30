@@ -52,13 +52,15 @@ Require the core library, and make sure you have an Easypost API token handy:
 
 #### Shipments
 
-Two API methods for shipments: `create!` and `buy!`. `buy!` takes three arguments: a Shipment, a Rate, and your token.
+Three API methods for shipments: `show`, `create!`, and `buy!`. `buy!` takes three arguments: a Shipment, a Rate, and your token.
 
 ```clojure
 (def shipment (-> (core/shipment {:to_address to
                                   :from_address from
                                   :parcel parcel})
                   (core/create! token))
+
+(core/fetch shipment token)
 
 (def rates (:rates shipment))
 
