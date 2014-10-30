@@ -71,8 +71,15 @@ Three API methods for shipments: `show`, `create!`, and `buy!`. `buy!` takes thr
 
 ```clojure
 (def batch (core/batch {:shipments [shipment]}))
-(-> (core/create! batch token)
-    (core/buy! token))
+(core/create! batch token)
+
+;; Wait, wait, wait for webhook...
+
+(core/buy! batch token)
+
+;; Wait, wait, wait for webhook...
+
+(core/label batch token "zpl") ; The file format is optional. Omitting the argument defaults to "pdf".
 ```
 
 ### `easypost-clj.webhooks`
