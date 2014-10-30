@@ -48,7 +48,9 @@
   (let [shipment (-> shipment
                      (core/create! token))]
     (is (contains? shipment :created_at))
-    (is (= easypost_clj.core.Rate (type (first (:rates shipment)))))))
+    (is (= easypost_clj.core.Rate (type (first (:rates shipment)))))
+    (is (= (:id shipment)
+           (:id (core/fetch shipment token))))))
 
 (deftest label-test
   (let [shipment (-> shipment

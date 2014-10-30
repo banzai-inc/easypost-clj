@@ -8,7 +8,8 @@
   (root [obj])
   (endpoint [obj])
   (vec-to-params [obj] "Returns a vector of vectors, each element representing a path to a key within the record.")
-  (create! [obj token]))
+  (create! [obj token] "Create object.")
+  (fetch [obj token] "Fetch object by id."))
 
 (defrecord Address [])
 (defrecord Parcel [])
@@ -37,12 +38,10 @@
 
 (defmulti process-response (fn [_ method] method))
 
-(defmethod process-response :post [resp _]
+;; Not exactly sure why I made this a multimethod
+(defmethod process-response :default [resp _]
   (-> (:body resp)
       (json/parse-string true)))
-
-(defmethod process-response :default [resp _]
-  resp)
 
 (defn- make-request* [method endpoint & [opts]]
   (-> (http/request
@@ -72,6 +71,13 @@
         (update-in memo path vec-to-params*))
       record
       paths)))
+
+(defn- fetch*
+  [obj token]
+  "GET request for single resource"
+  (-> (make-request* :get (str (endpoint obj) "/" (:id obj))
+                     (-> {} (merge-auth token)))
+      (merge obj)))
 
 (defn- create*!
   "POST request to API"
@@ -114,6 +120,8 @@
   (create! [shipment token]
     (-> (create*! shipment token)
         (update-in [:rates] (partial map rate))))
+  (fetch [shipment token]
+    (fetch* shipment token))
   
   Batch
   (root [_] :batch)

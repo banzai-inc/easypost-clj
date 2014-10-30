@@ -14,7 +14,11 @@
 
 (defmulti transform-result :object)
 (defmethod transform-result "Tracker" [v] (tracker v))
-(defmethod transform-result "Batch" [v] (ep/batch v))
+(defmethod transform-result "Batch" [v]
+  (-> (ep/batch v)
+      (update-in
+        [:shipments]
+        (fn [shipments] (map ep/shipment shipments)))))
 
 (defn event [& [v]]
   (-> (map->Event v)
