@@ -29,6 +29,8 @@ Require the core library, and make sure you have an Easypost API token handy:
 
 #### Addresses
 
+Create addresses.
+
 ```clojure
 (def from (core/address {:company "Banzai, Inc."
                          :street1 "2545 N. Canyon Rd."
@@ -38,6 +40,16 @@ Require the core library, and make sure you have an Easypost API token handy:
                          :zip "84604"
                          :phone "888.822.6924"}))
 (core/create! from token)
+```
+
+Verify addresses. Easypost lets you verify addresses you've already created with an ID. Easypost-clj, however, only supports the Easypost's stateless verification:
+
+```clojure
+(def token "abcd123")
+(core/verify (core/address {:street1 "159 W 100 S"
+                            :city "Springville"
+                            :state "Utah"
+                            :zip "84663"}) token)
 ```
 
 #### Parcels

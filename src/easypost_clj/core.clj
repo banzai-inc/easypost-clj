@@ -89,21 +89,30 @@
 
 (defn buy!
   "Purchase either a shipment or a batch shipment."
-  ([shipment rate token]
+  ([^Shipment shipment rate token]
    (-> (make-request* :post (str (endpoint shipment) "/" (:id shipment) "/buy")
                       (-> {:form-params {:rate {:id (:id rate)}}}
                           (merge-auth token)))
        (label)))
-  ([batch token]
-   (-> (make-request* :post (str (endpoint batch) "/" (:id batch) "/buy")
-                      (-> {} (merge-auth token))))))
+  ([^Batch batch token]
+   (make-request* :post (str (endpoint batch) "/" (:id batch) "/buy")
+                  (-> {} (merge-auth token)))))
 
 (defn labels!
   "Create labels for a batch."
-  [batch token & [file-format]]
-  (-> (make-request* :post (str (endpoint batch) "/" (:id batch) "/label")
-                     (-> {:form-params {:file_format (or file-format "pdf")}}
-                         (merge-auth token)))))
+  [^Batch batch token & [file-format]]
+  (make-request* :post (str (endpoint batch) "/" (:id batch) "/label")
+                 (-> {:form-params {:file_format (or file-format "pdf")}}
+                     (merge-auth token))))
+
+(defn verify
+  "Verify address. Requires an Address record."
+  [^Address address token]
+  (->> (make-request* :post (str (endpoint address) "/verify")
+                      (-> {:form-params {(root address) address}}
+                          (merge-auth token)))
+       (:address)
+       (merge address)))
 
 (extend-protocol Easypostable
   Address

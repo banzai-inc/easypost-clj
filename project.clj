@@ -1,4 +1,4 @@
-(defproject easypost-clj "0.1.5"
+(defproject easypost-clj "0.1.6"
   :description "Clojure library for Easypost's shipping API"
   :url "http://github.com/banzai-inc/easypost-clj"
   :license {:name "Eclipse Public License"
