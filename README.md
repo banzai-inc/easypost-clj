@@ -17,14 +17,12 @@ Easypost-clj is an early-stage library for interfacing with Easypost's elegant s
 
 Easypost-clj's functionality roughly corresponds to the tutorials found in [Easypost's Getting Started Guide](https://www.easypost.com/getting-started).
 
-Require the core library, and make sure you have an Easypost API token handy:
+Require the core library, and make sure you have an [Easypost API token](https://www.easypost.com/account/keys) handy:
 
 ```clojure
 (require '[easypost-clj.core :as ep])
 
-(def token ...)
-
-=> "abcd1234"
+(def token "your API key here")
 ```
 
 #### Addresses
@@ -32,34 +30,34 @@ Require the core library, and make sure you have an Easypost API token handy:
 Create addresses.
 
 ```clojure
-(def from (core/address {:company "Banzai, Inc."
-                         :street1 "2545 N. Canyon Rd."
-                         :street2 "Ste. 210"
-                         :city "Provo"
-                         :state "UT"
-                         :zip "84604"
-                         :phone "888.822.6924"}))
-(core/create! from token)
+(def from (ep/address {:company "Banzai, Inc."
+                       :street1 "2545 N. Canyon Rd."
+                       :street2 "Ste. 210"
+                       :city "Provo"
+                       :state "UT"
+                       :zip "84604"
+                       :phone "888.822.6924"}))
+(ep/create! from token)
 ```
 
 Verify addresses. Easypost lets you verify addresses you've already created with an ID. Easypost-clj, however, only supports the Easypost's stateless verification:
 
 ```clojure
 (def token "abcd123")
-(core/verify (core/address {:street1 "159 W 100 S"
-                            :city "Springville"
-                            :state "Utah"
-                            :zip "84663"}) token)
+(ep/verify (ep/address {:street1 "159 W 100 S"
+                        :city "Springville"
+                        :state "Utah"
+                        :zip "84663"}) token)
 ```
 
 #### Parcels
 
 ```clojure
-(def parcel (core/parcel {:length 9
-                          :width 6
-                          :height 2
-                          :weight 10}))
-(core/create! parcel token)
+(def parcel (ep/parcel {:length 9
+                        :width 6
+                        :height 2
+                        :weight 10}))
+(ep/create! parcel token)
 ```
 
 #### Shipments
@@ -67,31 +65,31 @@ Verify addresses. Easypost lets you verify addresses you've already created with
 Three API methods for shipments: `show`, `create!`, and `buy!`. `buy!` takes three arguments: a Shipment, a Rate, and your token.
 
 ```clojure
-(def shipment (-> (core/shipment {:to_address to
-                                  :from_address from
-                                  :parcel parcel})
-                  (core/create! token))
+(def shipment (-> (ep/shipment {:to_address to
+                                :from_address from
+                                :parcel parcel})
+                  (ep/create! token))
 
-(core/fetch shipment token)
+(ep/fetch shipment token)
 
 (def rates (:rates shipment))
 
-(core/buy! shipment (first rates) token))
+(ep/buy! shipment (first rates) token))
 ```
 
 #### Batches
 
 ```clojure
-(def batch (core/batch {:shipments [shipment]}))
-(core/create! batch token)
+(def batch (ep/batch {:shipments [shipment]}))
+(ep/create! batch token)
 
 ;; Wait, wait, wait for webhook...
 
-(core/buy! batch token)
+(ep/buy! batch token)
 
 ;; Wait, wait, wait for webhook...
 
-(core/labels! batch token "zpl") ; The file format is optional. Omitting the argument defaults to "pdf".
+(ep/labels! batch token "zpl") ; The file format is optional. Omitting the argument defaults to "pdf".
 ```
 
 ### `easypost-clj.webhooks`
